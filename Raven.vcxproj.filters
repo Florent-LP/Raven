@@ -121,14 +121,8 @@
     <ClCompile Include="armory\Raven_Projectile.cpp">
       <Filter>Game\weapons &amp; projectiles\projectiles</Filter>
     </ClCompile>
-    <ClCompile Include="..\Common\Game\BaseGameEntity.cpp">
-      <Filter>Game\Base entity classes</Filter>
-    </ClCompile>
     <ClCompile Include="lua\Raven_Scriptor.cpp">
       <Filter>Game\Script related\general</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Common\Game\EntityManager.cpp">
-      <Filter>Game\misc</Filter>
     </ClCompile>
     <ClCompile Include="GraveMarkers.cpp">
       <Filter>Game\misc</Filter>
@@ -199,35 +193,11 @@
     <ClCompile Include="goals\Goal_Wander.cpp">
       <Filter>AI\goals\atomic</Filter>
     </ClCompile>
-    <ClCompile Include="..\Common\fuzzy\FuzzyModule.cpp">
-      <Filter>AI\fuzzy logic</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Common\fuzzy\FuzzyOperators.cpp">
-      <Filter>AI\fuzzy logic</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Common\fuzzy\FuzzyVariable.cpp">
-      <Filter>AI\fuzzy logic</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Common\fuzzy\FuzzySet_LeftShoulder.cpp">
-      <Filter>AI\fuzzy logic\fuzzy set types</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Common\fuzzy\FuzzySet_RightShoulder.cpp">
-      <Filter>AI\fuzzy logic\fuzzy set types</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Common\fuzzy\FuzzySet_Singleton.cpp">
-      <Filter>AI\fuzzy logic\fuzzy set types</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Common\fuzzy\FuzzySet_Triangle.cpp">
-      <Filter>AI\fuzzy logic\fuzzy set types</Filter>
-    </ClCompile>
     <ClCompile Include="navigation\Raven_PathPlanner.cpp">
       <Filter>AI\Movement &amp; Navigation</Filter>
     </ClCompile>
     <ClCompile Include="Raven_SteeringBehaviors.cpp">
       <Filter>AI\Movement &amp; Navigation</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Common\Messaging\MessageDispatcher.cpp">
-      <Filter>AI\Messaging</Filter>
     </ClCompile>
     <ClCompile Include="Raven_SensoryMemory.cpp">
       <Filter>AI\Sensory Memory</Filter>
@@ -247,26 +217,56 @@
     <ClCompile Include="Raven_TargetingSystem.cpp">
       <Filter>AI\Target Selection</Filter>
     </ClCompile>
-    <ClCompile Include="..\Common\misc\Cgdi.cpp">
-      <Filter>Common</Filter>
+    <ClCompile Include="Common\Game\BaseGameEntity.cpp">
+      <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="..\Common\Time\CrudeTimer.cpp">
-      <Filter>Common</Filter>
+    <ClCompile Include="Common\Game\EntityManager.cpp">
+      <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="..\Common\Debug\DebugConsole.cpp">
-      <Filter>Common</Filter>
+    <ClCompile Include="Common\fuzzy\FuzzyModule.cpp">
+      <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="..\Common\misc\FrameCounter.cpp">
-      <Filter>Common</Filter>
+    <ClCompile Include="Common\fuzzy\FuzzyOperators.cpp">
+      <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="..\Common\Time\PrecisionTimer.cpp">
-      <Filter>Common</Filter>
+    <ClCompile Include="Common\fuzzy\FuzzyVariable.cpp">
+      <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="..\Common\2D\Vector2d.cpp">
-      <Filter>Common</Filter>
+    <ClCompile Include="Common\fuzzy\FuzzySet_LeftShoulder.cpp">
+      <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="..\Common\misc\WindowUtils.cpp">
-      <Filter>Common</Filter>
+    <ClCompile Include="Common\fuzzy\FuzzySet_RightShoulder.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\fuzzy\FuzzySet_Singleton.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\fuzzy\FuzzySet_Triangle.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\Messaging\MessageDispatcher.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\misc\Cgdi.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\Time\CrudeTimer.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\Debug\DebugConsole.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\misc\FrameCounter.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\Time\PrecisionTimer.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\2D\Vector2d.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\misc\WindowUtils.cpp">
+      <Filter>Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -309,37 +309,10 @@
     <ClInclude Include="armory\Raven_Projectile.h">
       <Filter>Game\weapons &amp; projectiles\projectiles</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common\Game\BaseGameEntity.h">
-      <Filter>Game\Base entity classes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\Game\EntityFunctionTemplates.h">
-      <Filter>Game\Base entity classes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\Game\MovingEntity.h">
-      <Filter>Game\Base entity classes</Filter>
-    </ClInclude>
     <ClInclude Include="lua\Raven_Scriptor.h">
       <Filter>Game\Script related\general</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common\script\Scriptor.h">
-      <Filter>Game\Script related\general</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\lua-5.1.3\include\lauxlib.h">
-      <Filter>Game\Script related\lua headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\lua-5.1.3\include\lua.h">
-      <Filter>Game\Script related\lua headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\lua-5.1.3\include\luahelperfunctions.h">
-      <Filter>Game\Script related\lua headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\lua-5.1.3\include\lualib.h">
-      <Filter>Game\Script related\lua headers</Filter>
-    </ClInclude>
     <ClInclude Include="constants.h">
-      <Filter>Game\misc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\Game\EntityManager.h">
       <Filter>Game\misc</Filter>
     </ClInclude>
     <ClInclude Include="GraveMarkers.h">
@@ -364,9 +337,6 @@
       <Filter>AI\goals\composite</Filter>
     </ClInclude>
     <ClInclude Include="goals\Goal_AttackTarget.h">
-      <Filter>AI\goals\composite</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\Goals\Goal_Composite.h">
       <Filter>AI\goals\composite</Filter>
     </ClInclude>
     <ClInclude Include="goals\Goal_Explore.h">
@@ -408,9 +378,6 @@
     <ClInclude Include="goals\Raven_Feature.h">
       <Filter>AI\goals\goal evaluation</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common\Goals\Goal.h">
-      <Filter>AI\goals\atomic</Filter>
-    </ClInclude>
     <ClInclude Include="goals\Goal_DodgeSideToSide.h">
       <Filter>AI\goals\atomic</Filter>
     </ClInclude>
@@ -425,66 +392,6 @@
     </ClInclude>
     <ClInclude Include="goals\Goal_Wander.h">
       <Filter>AI\goals\atomic</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\fuzzy\FuzzyHedges.h">
-      <Filter>AI\fuzzy logic</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\fuzzy\FuzzyModule.h">
-      <Filter>AI\fuzzy logic</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\fuzzy\FuzzyOperators.h">
-      <Filter>AI\fuzzy logic</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\fuzzy\FuzzyRule.h">
-      <Filter>AI\fuzzy logic</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\fuzzy\FuzzyTerm.h">
-      <Filter>AI\fuzzy logic</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\fuzzy\FuzzyVariable.h">
-      <Filter>AI\fuzzy logic</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\fuzzy\FzSet.h">
-      <Filter>AI\fuzzy logic</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\fuzzy\FuzzySet.h">
-      <Filter>AI\fuzzy logic\fuzzy set types</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\fuzzy\FuzzySet_LeftShoulder.h">
-      <Filter>AI\fuzzy logic\fuzzy set types</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\fuzzy\FuzzySet_RightShoulder.h">
-      <Filter>AI\fuzzy logic\fuzzy set types</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\fuzzy\FuzzySet_Shoulder.h">
-      <Filter>AI\fuzzy logic\fuzzy set types</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\fuzzy\FuzzySet_Singleton.h">
-      <Filter>AI\fuzzy logic\fuzzy set types</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\fuzzy\FuzzySet_Triangle.h">
-      <Filter>AI\fuzzy logic\fuzzy set types</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\Graph\AStarHeuristicPolicies.h">
-      <Filter>AI\Movement &amp; Navigation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\misc\CellSpacePartition.h">
-      <Filter>AI\Movement &amp; Navigation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\Graph\GraphAlgorithms.h">
-      <Filter>AI\Movement &amp; Navigation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\Graph\GraphEdgeTypes.h">
-      <Filter>AI\Movement &amp; Navigation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\Graph\GraphNodeTypes.h">
-      <Filter>AI\Movement &amp; Navigation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\Graph\HandyGraphFunctions.h">
-      <Filter>AI\Movement &amp; Navigation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\Graph\NodeTypeEnumerations.h">
-      <Filter>AI\Movement &amp; Navigation</Filter>
     </ClInclude>
     <ClInclude Include="navigation\PathEdge.h">
       <Filter>AI\Movement &amp; Navigation</Filter>
@@ -501,37 +408,19 @@
     <ClInclude Include="navigation\SearchTerminationPolicies.h">
       <Filter>AI\Movement &amp; Navigation</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common\Graph\SparseGraph.h">
-      <Filter>AI\Movement &amp; Navigation</Filter>
-    </ClInclude>
     <ClInclude Include="navigation\TimeSlicedGraphAlgorithms.h">
       <Filter>AI\Movement &amp; Navigation</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common\Messaging\MessageDispatcher.h">
-      <Filter>AI\Messaging</Filter>
-    </ClInclude>
     <ClInclude Include="Raven_Messages.h">
-      <Filter>AI\Messaging</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\Messaging\Telegram.h">
       <Filter>AI\Messaging</Filter>
     </ClInclude>
     <ClInclude Include="Raven_SensoryMemory.h">
       <Filter>AI\Sensory Memory</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common\Triggers\Trigger.h">
-      <Filter>AI\Triggers</Filter>
-    </ClInclude>
     <ClInclude Include="triggers\Trigger_HealthGiver.h">
       <Filter>AI\Triggers</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common\Triggers\Trigger_LimitedLifeTime.h">
-      <Filter>AI\Triggers</Filter>
-    </ClInclude>
     <ClInclude Include="triggers\Trigger_OnButtonSendMsg.h">
-      <Filter>AI\Triggers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\Triggers\Trigger_ReSpawning.h">
       <Filter>AI\Triggers</Filter>
     </ClInclude>
     <ClInclude Include="triggers\Trigger_SoundNotify.h">
@@ -540,72 +429,69 @@
     <ClInclude Include="triggers\Trigger_WeaponGiver.h">
       <Filter>AI\Triggers</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common\Triggers\TriggerRegion.h">
-      <Filter>AI\Triggers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\Triggers\TriggerSystem.h">
-      <Filter>AI\Triggers</Filter>
-    </ClInclude>
     <ClInclude Include="Raven_WeaponSystem.h">
       <Filter>AI\Weapon Handling</Filter>
     </ClInclude>
     <ClInclude Include="Raven_TargetingSystem.h">
       <Filter>AI\Target Selection</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common\2D\C2DMatrix.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\misc\Cgdi.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\Time\CrudeTimer.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\Debug\DebugConsole.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\misc\FrameCounter.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\2D\geometry.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\2D\InvertedAABBox2D.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\Time\PrecisionTimer.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\misc\PriorityQueue.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\PriorityQueue.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\Time\Regulator.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\misc\Stream_Utility_Functions.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\2D\Transformations.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\misc\utils.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\2D\Vector2D.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\2D\Wall2D.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\2D\WallIntersectionTests.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\misc\WindowUtils.h">
-      <Filter>Common</Filter>
-    </ClInclude>
+    <ClInclude Include="Common\Game\BaseGameEntity.h" />
+    <ClInclude Include="Common\Game\EntityFunctionTemplates.h" />
+    <ClInclude Include="Common\Game\MovingEntity.h" />
+    <ClInclude Include="Common\script\Scriptor.h" />
+    <ClInclude Include="Common\lua-5.1.3\include\lauxlib.h" />
+    <ClInclude Include="Common\lua-5.1.3\include\lua.h" />
+    <ClInclude Include="Common\lua-5.1.3\include\luahelperfunctions.h" />
+    <ClInclude Include="Common\lua-5.1.3\include\lualib.h" />
+    <ClInclude Include="Common\Game\EntityManager.h" />
+    <ClInclude Include="Common\Goals\Goal_Composite.h" />
+    <ClInclude Include="Common\Goals\Goal.h" />
+    <ClInclude Include="Common\fuzzy\FuzzyHedges.h" />
+    <ClInclude Include="Common\fuzzy\FuzzyModule.h" />
+    <ClInclude Include="Common\fuzzy\FuzzyOperators.h" />
+    <ClInclude Include="Common\fuzzy\FuzzyRule.h" />
+    <ClInclude Include="Common\fuzzy\FuzzyTerm.h" />
+    <ClInclude Include="Common\fuzzy\FuzzyVariable.h" />
+    <ClInclude Include="Common\fuzzy\FzSet.h" />
+    <ClInclude Include="Common\fuzzy\FuzzySet.h" />
+    <ClInclude Include="Common\fuzzy\FuzzySet_LeftShoulder.h" />
+    <ClInclude Include="Common\fuzzy\FuzzySet_RightShoulder.h" />
+    <ClInclude Include="Common\fuzzy\FuzzySet_Shoulder.h" />
+    <ClInclude Include="Common\fuzzy\FuzzySet_Singleton.h" />
+    <ClInclude Include="Common\fuzzy\FuzzySet_Triangle.h" />
+    <ClInclude Include="Common\Graph\AStarHeuristicPolicies.h" />
+    <ClInclude Include="Common\misc\CellSpacePartition.h" />
+    <ClInclude Include="Common\Graph\GraphAlgorithms.h" />
+    <ClInclude Include="Common\Graph\GraphEdgeTypes.h" />
+    <ClInclude Include="Common\Graph\GraphNodeTypes.h" />
+    <ClInclude Include="Common\Graph\HandyGraphFunctions.h" />
+    <ClInclude Include="Common\Graph\NodeTypeEnumerations.h" />
+    <ClInclude Include="Common\Graph\SparseGraph.h" />
+    <ClInclude Include="Common\Messaging\MessageDispatcher.h" />
+    <ClInclude Include="Common\Messaging\Telegram.h" />
+    <ClInclude Include="Common\Triggers\Trigger.h" />
+    <ClInclude Include="Common\Triggers\Trigger_LimitedLifeTime.h" />
+    <ClInclude Include="Common\Triggers\Trigger_ReSpawning.h" />
+    <ClInclude Include="Common\Triggers\TriggerRegion.h" />
+    <ClInclude Include="Common\Triggers\TriggerSystem.h" />
+    <ClInclude Include="Common\2D\C2DMatrix.h" />
+    <ClInclude Include="Common\misc\Cgdi.h" />
+    <ClInclude Include="Common\Time\CrudeTimer.h" />
+    <ClInclude Include="Common\Debug\DebugConsole.h" />
+    <ClInclude Include="Common\misc\FrameCounter.h" />
+    <ClInclude Include="Common\2D\geometry.h" />
+    <ClInclude Include="Common\2D\InvertedAABBox2D.h" />
+    <ClInclude Include="Common\Time\PrecisionTimer.h" />
+    <ClInclude Include="Common\misc\PriorityQueue.h" />
+    <ClInclude Include="Common\PriorityQueue.h" />
+    <ClInclude Include="Common\Time\Regulator.h" />
+    <ClInclude Include="Common\misc\Stream_Utility_Functions.h" />
+    <ClInclude Include="Common\2D\Transformations.h" />
+    <ClInclude Include="Common\misc\utils.h" />
+    <ClInclude Include="Common\2D\Vector2D.h" />
+    <ClInclude Include="Common\2D\Wall2D.h" />
+    <ClInclude Include="Common\2D\WallIntersectionTests.h" />
+    <ClInclude Include="Common\misc\WindowUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Params.lua">

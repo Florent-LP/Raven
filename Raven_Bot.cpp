@@ -1,6 +1,7 @@
 #include "Raven_Bot.h"
 #include "misc/Cgdi.h"
 #include "misc/utils.h"
+#include "misc/Stream_Utility_Functions.h"
 #include "2D/Transformations.h"
 #include "2D/Geometry.h"
 #include "lua/Raven_Scriptor.h"

@@ -9,6 +9,7 @@
 #include "Raven_Game.h"
 #include "Raven_UserOptions.h"
 #include "2D/transformations.h"
+#include "misc/Stream_Utility_Functions.h"
 
 
 

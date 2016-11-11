@@ -9,7 +9,4 @@ Raven_Scriptor* Raven_Scriptor::Instance()
 
 
 
-Raven_Scriptor::Raven_Scriptor():Scriptor()
-{
-  RunScriptFile("Params.lua");
-}
+Raven_Scriptor::Raven_Scriptor(): Scriptor("Params.ini") {}

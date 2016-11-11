@@ -1,17 +1,6 @@
-#ifndef RAVEN_SCRIPTOR_H
-#define RAVEN_SCRIPTOR_H
-#pragma warning (disable:4786)
-//-----------------------------------------------------------------------------
-//
-//  Name:   Raven_Scriptor
-//
-//  Author: Mat Buckland (www.ai-junkie.com)
-//
-//  Desc:   A Singleton Scriptor class for use with the Raven project
-//-----------------------------------------------------------------------------
+#pragma once
+
 #include "Script/scriptor.h"
-
-
 
 #define script Raven_Scriptor::Instance()
 
@@ -30,9 +19,3 @@ public:
   static Raven_Scriptor* Instance();
 
 };
-
-#endif
-
- 
-  
-

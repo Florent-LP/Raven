@@ -1,80 +1,60 @@
-#ifndef SCRIPTOR_H
-#define SCRIPTOR_H
-//-----------------------------------------------------------------------------
-//
-//  Name:   Scriptor.h
-//
-//  Author: Mat Buckland (www.ai-junkie.com)
-//
-//  Desc:   class encapsulating the basic functionality necessary to read a
-//          Lua config file
-//-----------------------------------------------------------------------------
-extern "C"
-{
-  #include <lua.h>
-  #include <lualib.h>
-  #include <lauxlib.h>
-}
+#pragma once
 
-#pragma comment(lib, "lua5.1.lib")
-//#pragma comment(lib, "lualib.lib")
+#include <iostream>
+#include <fstream>
+#include <unordered_map>
+#include <string>
+#include <stdexcept>
+#include <regex>
+#include <algorithm>
 
-#include "LuaHelperFunctions.h"
-
-
-
-class Scriptor
-{
+class Scriptor {
 private:
-
-  lua_State* m_pLuaState;
+    std::unordered_map<std::string, std::string> params;
 
 public:
+    Scriptor(std::string fileName) {
+        std::ifstream file(fileName, std::ios::app);
+        if (!file.is_open()) {
+            throw std::runtime_error("Parameters' file not open.");
+        }
 
-  Scriptor():m_pLuaState(luaL_newstate())
-  {
-    //open the libraries
-    luaL_openlibs(m_pLuaState);
-  }
+        std::string line;
+        while (std::getline(file, line)) {
+            const std::string s(line);
+            const std::regex param("(\\w+)\\s*=\\s*(?:([\\w\\.]+)|\\\"(.+)\\\")");
+            std::smatch match;
+            if (std::regex_search(s.begin(), s.end(), match, param)) {
+                if (std::string(match[2]).size() > 0) {
+                    params[match[1]] = match[2];
+                }
+                else {
+                    params[match[1]] = match[3];
+                }
+            }
+        }
 
-  ~Scriptor(){lua_close(m_pLuaState);}
+        file.close();
+    }
 
-  void RunScriptFile(char* ScriptName)
-  {
-     RunLuaScript(m_pLuaState, ScriptName);
-  }
+    int GetInt(std::string name) {
+        return std::atoi(params[name].c_str());
+    }
 
-  lua_State* GetState(){return m_pLuaState;}
+    float GetFloat(std::string name) {
+        return std::stof(params[name].c_str());
+    }
 
+    double GetDouble(std::string name) {
+        return std::stod(params[name].c_str());
+    }
 
-  int GetInt(char* VariableName)
-  {
-    return PopLuaNumber<int>(m_pLuaState, VariableName);
-  }
-    
-  double GetFloat(char* VariableName)
-  {
-    return PopLuaNumber<float>(m_pLuaState, VariableName);
-  }
+    std::string GetString(std::string name) {
+        return params[name];
+    }
 
-  double GetDouble(char* VariableName)
-  {
-    return PopLuaNumber<double>(m_pLuaState, VariableName);
-  }
-
-  std::string GetString(char* VariableName)
-  {
-    return PopLuaString(m_pLuaState, VariableName);
-  }
-
-  bool GetBool(char* VariableName)
-  {
-    return PopLuaBool(m_pLuaState, VariableName);
-  }
+    bool GetBool(std::string name) {
+        std::string t("true");
+        return t.compare(params[name]) == 0 || std::atoi(params[name].c_str());
+    }
 };
-
-#endif
-
- 
-  
-
