@@ -24,6 +24,7 @@ Raven_WeaponSystem::Raven_WeaponSystem(Raven_Bot* owner,
                                                           m_dAimPersistance(AimPersistance)
 {
   Initialize();
+  InitializeFuzzyModule();
 }
 
 //------------------------- dtor ----------------------------------------------
@@ -174,7 +175,7 @@ void Raven_WeaponSystem::ChangeWeapon(unsigned int type)
 //  this method aims the bots current weapon at the target (if there is a
 //  target) and, if aimed correctly, fires a round
 //-----------------------------------------------------------------------------
-void Raven_WeaponSystem::TakeAimAndShoot()const
+void Raven_WeaponSystem::TakeAimAndShoot()
 {
   //aim the weapon only if the current target is shootable or if it has only
   //very recently gone out of view (this latter condition is to ensure the 
@@ -248,15 +249,155 @@ void Raven_WeaponSystem::AddNoiseToAim(Vector2D& AimingPos)const
   AimingPos = toPos + m_pOwner->Pos();
 }
 
+//-------------------------  InitializeFuzzyModule ----------------------------
+//
+//  set up some fuzzy variables and rules
+//-----------------------------------------------------------------------------
+void Raven_WeaponSystem::InitializeFuzzyModule()
+{
+	// The shooter deviates its aim accordingly to this fuzzy variable.
+	FuzzyVariable& AimDeviation = m_FuzzyModule.CreateFLV("AimDeviation");
+	FzSet& ExtraFarLeftAD = AimDeviation.AddLeftShoulderSet("ExtraFarLeftAD", DegsToRads(-90), DegsToRads(-30), DegsToRads(-20));
+	FzSet& VeryFarLeftAD = AimDeviation.AddTriangularSet("VeryFarLeftAD", DegsToRads(-30), DegsToRads(-20), DegsToRads(-15));
+	FzSet& FarLeftAD = AimDeviation.AddTriangularSet("FarLeftAD", DegsToRads(-20), DegsToRads(-15), DegsToRads(-5));
+	FzSet& LeftAD = AimDeviation.AddTriangularSet("LeftAD", DegsToRads(-15), DegsToRads(-5), DegsToRads(0));
+	FzSet& CenterAD = AimDeviation.AddTriangularSet("CenterAD", DegsToRads(-5), DegsToRads(0), DegsToRads(5));
+	FzSet& RightAD = AimDeviation.AddTriangularSet("RightAD", DegsToRads(0), DegsToRads(5), DegsToRads(15));
+	FzSet& FarRightAD = AimDeviation.AddTriangularSet("FarRightAD", DegsToRads(5), DegsToRads(15), DegsToRads(20));
+	FzSet& VeryFarRightAD = AimDeviation.AddTriangularSet("VeryFarRightAD", DegsToRads(15), DegsToRads(20), DegsToRads(30));
+	FzSet& ExtraFarRightAD = AimDeviation.AddRightShoulderSet("ExtraFarRightAD", DegsToRads(20), DegsToRads(30), DegsToRads(90));
+
+	// Distance between the shooter and its target.
+	// In order to avoid too much complexity, the Medium and Far variables are used the same way.
+	FuzzyVariable& DistToTarget = m_FuzzyModule.CreateFLV("DistToTarget");
+	FzSet& TargetClose = DistToTarget.AddLeftShoulderSet("TargetClose", 0, 25, 150);
+	FzSet& TargetMedium = DistToTarget.AddTriangularSet("TargetMedium", 25, 150, 300);
+	FzSet& TargetFar = DistToTarget.AddRightShoulderSet("TargetFar", 150, 300, 1000);
+
+	// The speed of the target should stay between 0 and the max value defined in Params.ini
+	// We can assume that it will never be greater than 100.
+	// In order to avoid too much complexity, we only define 2 sets.
+	FuzzyVariable& TargetSpeed = m_FuzzyModule.CreateFLV("TargetSpeed");
+	FzSet& TargetSlow = TargetSpeed.AddLeftShoulderSet("TargetSlow", 0.0, 0.25, 0.75);
+	FzSet& TargetFast = TargetSpeed.AddRightShoulderSet("TargetFast", 0.25, 0.75, 100.0);
+
+	// After 3 seconds watching its target, the shooter starts to aim better.
+	// We can assume that an ennemy will never stay visible or and alive more than 10min.
+	// In order to avoid too much complexity, we only define 2 sets.
+	FuzzyVariable& VisibilityDuration = m_FuzzyModule.CreateFLV("VisibilityDuration");
+	FzSet& ShortPeriod = VisibilityDuration.AddLeftShoulderSet("ShortPeriod", 0, 0, 3);
+	FzSet& LongPeriod = VisibilityDuration.AddRightShoulderSet("LongPeriod", 0, 3, 600);
+
+	// Represents the target's heading angle relatively to the shooter's angle of view.
+	// In order to be certain that the angle stays in the bounds, we add an extra-degree to them.
+	// If the angle is small enough, the target's heading is parallel to the shooter's angle of view : it can just shoot forward without anticipating.
+	FuzzyVariable& TargetHeading = m_FuzzyModule.CreateFLV("TargetHeading");
+	FzSet& LeftTH = TargetHeading.AddLeftShoulderSet("LeftTH", DegsToRads(-91), DegsToRads(-5), DegsToRads(0));
+	FzSet& CenterTH = TargetHeading.AddTriangularSet("CenterTH", DegsToRads(-5), DegsToRads(0), DegsToRads(5));
+	FzSet& RightTH = TargetHeading.AddRightShoulderSet("RightTH", DegsToRads(0), DegsToRads(5), DegsToRads(91));
+
+
+
+	// Rules :
+	//  - The closer the target, the higher the deviation : it's harder to aim accurately a nearby moving target.
+	//  - The faster the target, the higher the deviation : a faster target is harder to aim accurately.
+	//  - The longer the target is visible, the lower the deviation : once the surprise effect is over, a human is more concentrated over time.
+	//  - The deviation is directed on the same side as the heading of the target : its next position is roughly anticipated.
+	m_FuzzyModule.AddRule(FzAND(TargetClose, TargetSlow, ShortPeriod, LeftTH), VeryFarLeftAD);
+	m_FuzzyModule.AddRule(FzAND(TargetClose, TargetSlow, ShortPeriod, CenterTH), CenterAD);
+	m_FuzzyModule.AddRule(FzAND(TargetClose, TargetSlow, ShortPeriod, RightTH), VeryFarRightAD);
+
+	m_FuzzyModule.AddRule(FzAND(TargetClose, TargetSlow, LongPeriod, LeftTH), FarLeftAD);
+	m_FuzzyModule.AddRule(FzAND(TargetClose, TargetSlow, LongPeriod, CenterTH), CenterAD);
+	m_FuzzyModule.AddRule(FzAND(TargetClose, TargetSlow, LongPeriod, RightTH), FarRightAD);
+
+
+	m_FuzzyModule.AddRule(FzAND(TargetClose, TargetFast, ShortPeriod, LeftTH), ExtraFarLeftAD);
+	m_FuzzyModule.AddRule(FzAND(TargetClose, TargetFast, ShortPeriod, CenterTH), CenterAD);
+	m_FuzzyModule.AddRule(FzAND(TargetClose, TargetFast, ShortPeriod, RightTH), ExtraFarRightAD);
+
+	m_FuzzyModule.AddRule(FzAND(TargetClose, TargetFast, LongPeriod, LeftTH), VeryFarLeftAD);
+	m_FuzzyModule.AddRule(FzAND(TargetClose, TargetFast, LongPeriod, CenterTH), CenterAD);
+	m_FuzzyModule.AddRule(FzAND(TargetClose, TargetFast, LongPeriod, RightTH), VeryFarRightAD);
+
+
+
+	m_FuzzyModule.AddRule(FzAND(TargetMedium, TargetSlow, ShortPeriod, LeftTH), FarLeftAD);
+	m_FuzzyModule.AddRule(FzAND(TargetMedium, TargetSlow, ShortPeriod, CenterTH), CenterAD);
+	m_FuzzyModule.AddRule(FzAND(TargetMedium, TargetSlow, ShortPeriod, RightTH), FarRightAD);
+
+	m_FuzzyModule.AddRule(FzAND(TargetMedium, TargetSlow, LongPeriod, LeftTH), LeftAD);
+	m_FuzzyModule.AddRule(FzAND(TargetMedium, TargetSlow, LongPeriod, CenterTH), CenterAD);
+	m_FuzzyModule.AddRule(FzAND(TargetMedium, TargetSlow, LongPeriod, RightTH), RightAD);
+
+
+	m_FuzzyModule.AddRule(FzAND(TargetMedium, TargetFast, ShortPeriod, LeftTH), VeryFarLeftAD);
+	m_FuzzyModule.AddRule(FzAND(TargetMedium, TargetFast, ShortPeriod, CenterTH), CenterAD);
+	m_FuzzyModule.AddRule(FzAND(TargetMedium, TargetFast, ShortPeriod, RightTH), VeryFarRightAD);
+
+	m_FuzzyModule.AddRule(FzAND(TargetMedium, TargetFast, LongPeriod, LeftTH), FarLeftAD);
+	m_FuzzyModule.AddRule(FzAND(TargetMedium, TargetFast, LongPeriod, CenterTH), CenterAD);
+	m_FuzzyModule.AddRule(FzAND(TargetMedium, TargetFast, LongPeriod, RightTH), FarRightAD);
+
+
+
+	m_FuzzyModule.AddRule(FzAND(TargetFar, TargetSlow, ShortPeriod, LeftTH), FarLeftAD);
+	m_FuzzyModule.AddRule(FzAND(TargetFar, TargetSlow, ShortPeriod, CenterTH), CenterAD);
+	m_FuzzyModule.AddRule(FzAND(TargetFar, TargetSlow, ShortPeriod, RightTH), FarRightAD);
+
+	m_FuzzyModule.AddRule(FzAND(TargetFar, TargetSlow, LongPeriod, LeftTH), LeftAD);
+	m_FuzzyModule.AddRule(FzAND(TargetFar, TargetSlow, LongPeriod, CenterTH), CenterAD);
+	m_FuzzyModule.AddRule(FzAND(TargetFar, TargetSlow, LongPeriod, RightTH), RightAD);
+
+
+	m_FuzzyModule.AddRule(FzAND(TargetFar, TargetFast, ShortPeriod, LeftTH), VeryFarLeftAD);
+	m_FuzzyModule.AddRule(FzAND(TargetFar, TargetFast, ShortPeriod, CenterTH), CenterAD);
+	m_FuzzyModule.AddRule(FzAND(TargetFar, TargetFast, ShortPeriod, RightTH), VeryFarRightAD);
+
+	m_FuzzyModule.AddRule(FzAND(TargetFar, TargetFast, LongPeriod, LeftTH), FarLeftAD);
+	m_FuzzyModule.AddRule(FzAND(TargetFar, TargetFast, LongPeriod, CenterTH), CenterAD);
+	m_FuzzyModule.AddRule(FzAND(TargetFar, TargetFast, LongPeriod, RightTH), FarRightAD);
+}
+
+//---------------------------- Aim deviation -----------------------------------
+//
+//-----------------------------------------------------------------------------
+
+double Raven_WeaponSystem::GetAimDeviation()
+{
+	Vector2D ToEnemy = m_pOwner->GetTargetBot()->Pos() - m_pOwner->Pos(); // Vector from shooter to target.
+	Vector2D EnemyHeading = m_pOwner->GetTargetBot()->Heading();
+	double dot = EnemyHeading.Dot(Vec2DNormalize(ToEnemy).Perp()); // We take the normalized left perpendicular of the aiming vector (so we can calculate a relevant angle).
+	Clamp(dot, -1, 1); // Ensure value remains valid for the acos.
+	double angle = acos(dot) - HalfPi; // We substract HalfPi so the final range is [-90, 90].
+
+	m_FuzzyModule.Fuzzify("DistToTarget", ToEnemy.Length());
+	m_FuzzyModule.Fuzzify("TargetSpeed", m_pOwner->GetTargetBot()->Speed());
+	m_FuzzyModule.Fuzzify("VisibilityDuration", m_pOwner->GetTargetSys()->GetTimeTargetHasBeenVisible());
+	m_FuzzyModule.Fuzzify("TargetHeading", angle);
+
+	return m_FuzzyModule.DeFuzzify("AimDeviation", FuzzyModule::max_av);
+}
+
 //-------------------------- PredictFuturePositionOfTarget --------------------
 //
 //  predicts where the target will be located in the time it takes for a
 //  projectile to reach it. This uses a similar logic to the Pursuit steering
 //  behavior.
 //-----------------------------------------------------------------------------
-Vector2D Raven_WeaponSystem::PredictFuturePositionOfTarget()const
+Vector2D Raven_WeaponSystem::PredictFuturePositionOfTarget()
 {
-  double MaxSpeed = GetCurrentWeapon()->GetMaxProjectileSpeed();
+  
+  Vector2D toPos = m_pOwner->GetTargetBot()->Pos() - m_pOwner->Pos();
+
+  // The direction of the deviation is not orthogonal, so we have to change the sign before applying the rotation.
+  Vec2DRotateAroundOrigin(toPos, -GetAimDeviation());
+
+  return toPos + m_pOwner->Pos();
+
+  // We disable the prediction algorithm (which is too accurate)
+
+  /*double MaxSpeed = GetCurrentWeapon()->GetMaxProjectileSpeed();
   
   //if the target is ahead and facing the agent shoot at its current pos
   Vector2D ToEnemy = m_pOwner->GetTargetBot()->Pos() - m_pOwner->Pos();
@@ -269,7 +410,7 @@ Vector2D Raven_WeaponSystem::PredictFuturePositionOfTarget()const
   
   //return the predicted future position of the enemy
   return m_pOwner->GetTargetBot()->Pos() + 
-         m_pOwner->GetTargetBot()->Velocity() * LookAheadTime;
+         m_pOwner->GetTargetBot()->Velocity() * LookAheadTime;*/
 }
 
 
