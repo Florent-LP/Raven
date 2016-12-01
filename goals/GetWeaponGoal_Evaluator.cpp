@@ -68,6 +68,8 @@ void GetWeaponGoal_Evaluator::RenderInfo(Vector2D Position, Raven_Bot* pBot)
     s="RG: ";break;
   case type_rocket_launcher:
     s="RL: "; break;
+  case type_grenade_launcher:
+	s = "GL: "; break;
   case type_shotgun:
     s="SG: "; break;
   }

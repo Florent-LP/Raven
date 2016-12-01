@@ -271,11 +271,11 @@
     <ClCompile Include="goals\Goal_DodgeFollowingPath.cpp">
       <Filter>AI\goals\composite</Filter>
     </ClCompile>
-    <ClCompile Include="armory\Projectile_Grenade.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
     <ClCompile Include="armory\Weapon_GrenadeLauncher.cpp">
       <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="armory\Projectile_Grenade.cpp">
+      <Filter>Game\weapons &amp; projectiles\projectiles</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -504,8 +504,10 @@
     <ClInclude Include="goals\Goal_DodgeFollowingPath.h">
       <Filter>AI\goals\composite</Filter>
     </ClInclude>
-    <ClInclude Include="armory\Projectile_Grenade.h" />
     <ClInclude Include="armory\Weapon_GrenadeLauncher.h" />
+    <ClInclude Include="armory\Projectile_Grenade.h">
+      <Filter>Game\weapons &amp; projectiles\projectiles</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Params.lua">

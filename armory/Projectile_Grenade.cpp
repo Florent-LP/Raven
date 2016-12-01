@@ -36,7 +36,7 @@ Grenade::Grenade(Raven_Bot* shooter, Vector2D target) :
 //------------------------------ Update ---------------------------------------
 //-----------------------------------------------------------------------------
 void Grenade::Update() {
-	if (!m_timeBeforeBlast) {
+	if (!m_bImpacted) {
 		m_vVelocity = MaxSpeed() * Heading();
 
 		//make sure vehicle does not exceed maximum velocity
@@ -58,9 +58,58 @@ void Grenade::Update() {
 
 void Grenade::TestForImpact()
 {
-	PrecisionTimer timer;
-	if (timer.CurrentTime() > m_timeBeforeBlast + m_dTimeOfCreation) {
+
+	//if the projectile has reached the target position or it hits an entity
+	//or wall it should explode/inflict damage/whatever and then mark itself
+	//as dead
+
+
+	//test to see if the line segment connecting the rocket's current position
+	//and previous position intersects with any bots.
+	Raven_Bot* hit = GetClosestIntersectingBot(m_vPosition - m_vVelocity, m_vPosition);
+
+	//if hit
+	if (hit)
+	{
 		m_bImpacted = true;
+
+		//send a message to the bot to let it know it's been hit, and who the
+		//shot came from
+		Dispatcher->DispatchMsg(SEND_MSG_IMMEDIATELY,
+			m_iShooterID,
+			hit->ID(),
+			Msg_TakeThatMF,
+			(void*)&m_iDamageInflicted);
+
+		//test for bots within the blast radius and inflict damage
+		InflictDamageOnBotsWithinBlastRadius();
+	}
+
+	//test for impact with a wall
+	double dist;
+	if (FindClosestPointOfIntersectionWithWalls(m_vPosition - m_vVelocity,
+		m_vPosition,
+		dist,
+		m_vImpactPoint,
+		m_pWorld->GetMap()->GetWalls()))
+	{
+		m_bImpacted = true;
+
+		//test for bots within the blast radius and inflict damage
+		InflictDamageOnBotsWithinBlastRadius();
+
+		m_vPosition = m_vImpactPoint;
+
+		return;
+	}
+
+	//test to see if rocket has reached target position. If so, test for
+	//all bots in vicinity
+	const double tolerance = 5.0;
+	if (Vec2DDistanceSq(Pos(), m_vTarget) < tolerance*tolerance)
+	{
+		m_bImpacted = true;
+
 		InflictDamageOnBotsWithinBlastRadius();
 	}
 }
@@ -97,13 +146,12 @@ void Grenade::Render()
 {
   
   gdi->RedPen();
-  gdi->GreenBrush();
-  gdi->Circle(Pos(), 10);
+  gdi->YellowBrush();
+  gdi->Circle(Pos(), 2);
 
   if (m_bImpacted)
   {
     gdi->HollowBrush();
     gdi->Circle(Pos(), m_dCurrentBlastRadius);
-    gdi->Circle(Pos(), 10);
   }
 }

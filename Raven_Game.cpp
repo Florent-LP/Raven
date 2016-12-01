@@ -532,6 +532,10 @@ void Raven_Game::ChangeWeaponOfPossessedBot(unsigned int weapon)const
       
       PossessedBot()->ChangeWeapon(type_rocket_launcher); return;
 
+	case type_grenade_launcher:
+
+		PossessedBot()->ChangeWeapon(type_grenade_launcher); return;
+
     case type_rail_gun:
       
       PossessedBot()->ChangeWeapon(type_rail_gun); return;

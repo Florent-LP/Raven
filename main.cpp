@@ -150,7 +150,13 @@ LRESULT CALLBACK WindowProc (HWND   hwnd,
 
            break;
 
-         case '4':
+		 case '4':
+
+			 g_pRaven->ChangeWeaponOfPossessedBot(type_rocket_launcher);
+
+			 break;
+
+         case '5':
 
            g_pRaven->ChangeWeaponOfPossessedBot(type_rail_gun);
 
