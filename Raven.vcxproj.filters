@@ -268,6 +268,9 @@
     <ClCompile Include="Common\misc\WindowUtils.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="goals\Goal_DodgeFollowingPath.cpp">
+      <Filter>AI\goals\composite</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Raven_Bot.h">
@@ -492,6 +495,9 @@
     <ClInclude Include="Common\2D\Wall2D.h" />
     <ClInclude Include="Common\2D\WallIntersectionTests.h" />
     <ClInclude Include="Common\misc\WindowUtils.h" />
+    <ClInclude Include="goals\Goal_DodgeFollowingPath.h">
+      <Filter>AI\goals\composite</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Params.lua">
