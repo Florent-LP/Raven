@@ -25,6 +25,8 @@ private:
   //vrtex buffers for rocket shape
   std::vector<Vector2D>         m_vecRLVB;
   std::vector<Vector2D>         m_vecRLVBTrans;
+  std::vector<Vector2D>         m_vecGrenade;
+  std::vector<Vector2D>         m_vecGrenadeTrans;
   
 public:
 

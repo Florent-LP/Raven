@@ -271,6 +271,12 @@
     <ClCompile Include="goals\Goal_DodgeFollowingPath.cpp">
       <Filter>AI\goals\composite</Filter>
     </ClCompile>
+    <ClCompile Include="armory\Projectile_Grenade.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="armory\Weapon_GrenadeLauncher.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Raven_Bot.h">
@@ -498,6 +504,8 @@
     <ClInclude Include="goals\Goal_DodgeFollowingPath.h">
       <Filter>AI\goals\composite</Filter>
     </ClInclude>
+    <ClInclude Include="armory\Projectile_Grenade.h" />
+    <ClInclude Include="armory\Weapon_GrenadeLauncher.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Params.lua">

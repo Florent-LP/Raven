@@ -228,6 +228,8 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="armory\Projectile_Grenade.cpp" />
+    <ClCompile Include="armory\Weapon_GrenadeLauncher.cpp" />
     <ClCompile Include="goals\Goal_DodgeFollowingPath.cpp" />
     <ClCompile Include="main.cpp">
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -546,6 +548,8 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="armory\Projectile_Grenade.h" />
+    <ClInclude Include="armory\Weapon_GrenadeLauncher.h" />
     <ClInclude Include="goals\Goal_DodgeFollowingPath.h" />
     <ClInclude Include="Raven_Bot.h" />
     <ClInclude Include="Raven_Game.h" />

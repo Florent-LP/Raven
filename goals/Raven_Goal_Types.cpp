@@ -87,6 +87,10 @@ std::string GoalTypeToString::Convert(int gt)
 
 	  return "dodge_following_path";
 
+  case goal_get_grenade_launcher:
+
+	  return "get_grenade_launcher";
+
   default:
 
     return "UNKNOWN GOAL TYPE!";
